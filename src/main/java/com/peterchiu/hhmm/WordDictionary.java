@@ -127,13 +127,14 @@ class WordDictionary extends AbstractDictionary {
 
   private void loadWhitelist() {
     try {
-      try (InputStream is = this.getClass().getResourceAsStream("whitelist.txt")) {
+      try (InputStream is = this.getClass().getResourceAsStream("whitelist.properties")) {
         String res = new BufferedReader(new InputStreamReader(is))
           .lines().collect(Collectors.joining("\n"));
         System.out.println(res);
 
         whitelistOrg = Arrays.stream(res.split("\n"))
           .filter(l -> l.length() > 1)
+          .filter(l -> !l.startsWith("#"))
           .toArray(String[]::new);
 
         Set<String> temp = new HashSet<>(Arrays.asList(whitelistOrg));
